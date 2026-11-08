@@ -23,3 +23,5 @@ cache.db
 # Testing and coverage
 .pytest_cache/
 .coverage
+
+token.txt
