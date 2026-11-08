@@ -21,10 +21,12 @@ Since this is a desktop app using `CustomTkinter`, CSS is not applicable. Design
     *   Frames: `10px`
 
 ## 2. Layout Architecture
-*   **Root Window:** Fixed size or non-resizable (e.g., `800x600`) to prevent layout breaking.
-*   **Grid System:** Utilizing Tkinter's `.grid()` geometry manager.
+*   **Root Window:** Fixed size, non-resizable `1200x680` to prevent layout breaking.
+*   **Grid System:** Utilizing Tkinter's `.grid()` geometry manager with a 50/50 horizontal split (`uniform="split"`).
     *   Padding (`padx`, `pady`): Universal `10px` between elements, `20px` from window edges.
-*   **Sections:** Divided using `CTkFrame` widgets to group logical clusters (Auth Frame, Date Frame, File Frame).
+*   **Sections:** Divided into two panes using `CTkFrame` widgets:
+    *   **Left Pane (Column 0):** Auth Frame, Configuration Frame, and Execution/Status Frame.
+    *   **Right Pane (Column 1):** Results Overview Frame containing the Date Range Banner and scrollable `ResultsTable`.
 
 ## 3. Reusable Component Guidelines
 *   **Primary Action Buttons (Execute):** Must use the Primary Accent color. Must transition to a "Disabled" state (greyed out) during async execution.

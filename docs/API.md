@@ -26,7 +26,7 @@ This application acts as an API *Client*, not a Server.
 Since this is a client app, mutations refer to local disk operations resulting from API queries.
 *   **Local Caching (SQL INSERT):** Upon a `200 OK` response from GitHub, the `username`, `dates`, and `total_count` are INSERTED into `db/cache.db`.
 *   **File System (WRITE):** Upon batch completion, two files are created/overwritten in the target directory:
-    *   `{timestamp}_results.txt`
+    *   `{timestamp}_{start_date}_to_{end_date}_results.txt`
     *   `{timestamp}_errors.log`
 
 ## 4. Known Issues and Maintenance Rules

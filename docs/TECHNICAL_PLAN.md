@@ -33,9 +33,11 @@ github_commit_tracker/
 *   **`core.github_api`:** Utilizes `asyncio` and `aiohttp`. Extracts only the `total_count` field from the GitHub Search API payload (no pagination needed). Implements a semaphore to limit outbound requests to 5 at a time.
 *   **`db.cache`:** Local SQLite database. Intercepts network calls to check if the exact user and YYYY-MM-DD range was queried recently to save rate limits.
 *   **`core.output_writer`:** 
-    *   Writes successful results (including 0 commits) formatted strictly as `[name]-=-[commits]-=-[link]`.
+    *   Writes successful results (including 0 commits) formatted strictly as `[name]-=-[commits]-=-[link]` to `{timestamp}_{start_date}_to_{end_date}_results.txt`.
     *   Writes accounts with issues formatted as `[name]-=-PROBLEM WITH ACCOUNT-=-[link]`.
     *   Appends detailed error traces (e.g., 404 Not Found, 403 Rate Limit) to a separate `errors.log` file.
+    *   Provides `read_results_file()` to deserialize existing `*_results.txt` files back into table rows and date metadata.
+*   **`gui.components`:** Houses `ResultsTable`, a `CTkScrollableFrame` subclass that renders read-only, selectable `CTkEntry` cells so users can copy usernames, commit counts, and URLs without mutating data.
 
 ## 3. Database Entities & Data Structures
 **Entity: StudentRecord** (In-Memory)

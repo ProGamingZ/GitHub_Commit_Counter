@@ -1,11 +1,16 @@
 # SCREEN_FLOWS.md
 
 ## 1. Route Map and Screen Hierarchy
-Because this is a local desktop utility, it utilizes a Single-Window Architecture rather than traditional web routing.
+Because this is a local desktop utility, it utilizes a Split-Screen Single-Window Architecture rather than traditional web routing.
 *   **Main Window (Root)**
-    *   Auth Section (Top)
-    *   Configuration Section (Middle)
-    *   Execution & Status Section (Bottom)
+    *   **Left Pane**
+        *   Auth Section (Top)
+        *   Configuration Section (Middle)
+        *   Execution & Status Section (Bottom)
+    *   **Right Pane**
+        *   Results Header & File Loader (`LoadResultsBtn`)
+        *   Date Range Banner (Start & End Date)
+        *   Copyable Read-Only `ResultsTable`
 
 ## 2. Detailed Breakdown per Screen
 **Screen: Main Application Window**
@@ -20,6 +25,9 @@ Because this is a local desktop utility, it utilizes a Single-Window Architectur
     *   `ExecuteBtn (CTkButton)`: Triggers the async ingestion and API queue.
     *   `ProgressBar (CTkProgressBar)`: Real-time visual indicator of batch completion.
     *   `StatusLog (CTkTextbox)`: Read-only scrollable text area for real-time console feedback.
+    *   `LoadResultsBtn (CTkButton)`: Opens native OS file dialog to load an existing `*_results.txt` file into the table.
+    *   `DateBanner (CTkLabel)`: Displays the Start and End dates above the table.
+    *   `ResultsTable (CTkScrollableFrame)`: Read-only, selectable `CTkEntry` grid displaying GitHub Username, Commits, and GitHub Link.
 
 ## 3. Multi-Step User Flows
 **Flow A: Initial Onboarding & Authentication**
@@ -37,4 +45,9 @@ Because this is a local desktop utility, it utilizes a Single-Window Architectur
 6. `ProgressBar` initializes based on the length of the deduplicated user list.
 7. `StatusLog` appends real-time events (e.g., "Fetching user1...", "Cached user2...", "Rate limit pausing...").
 8. Upon completion, UI re-enables, and a native OS popup confirms "File saved to Desktop."
+
+**Flow C: Loading Historical Results**
+1. User clicks "Load Results File (.txt)" in the Right Pane.
+2. User selects a previously generated `*_results.txt` file.
+3. System parses the filename for Start/End dates (falling back to left-pane inputs or `N/A` for older files) and populates the `DateBanner` and `ResultsTable`.
 
