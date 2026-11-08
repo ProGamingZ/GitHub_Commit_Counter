@@ -25,3 +25,5 @@ cache.db
 .coverage
 
 token.txt
+
+accounts/

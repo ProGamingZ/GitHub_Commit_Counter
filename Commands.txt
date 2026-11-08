@@ -2,3 +2,6 @@
 python -m venv venv
 .\venv\Scripts\activate
 
+To compile the application into a single executable for Windows, run the following command:
+pyinstaller --noconsole --onefile --name "GitHubCommitTracker" main.py
+

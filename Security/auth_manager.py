@@ -1,4 +1,5 @@
 import keyring
+from keyring.errors import PasswordDeleteError
 
 # Hardcoded service credentials per the API guidelines
 SERVICE_NAME = "GitHubCommitTracker_App"
@@ -16,5 +17,5 @@ def delete_token() -> None:
     """Removes the GitHub PAT from the OS Credential Locker (for logout/reset)."""
     try:
         keyring.delete_password(SERVICE_NAME, ACCOUNT_NAME)
-    except keyring.errors.PasswordDeleteError:
+    except PasswordDeleteError:
         pass
