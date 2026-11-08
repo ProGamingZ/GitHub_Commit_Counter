@@ -147,6 +147,10 @@ class App(ctk.CTk):
             loop.close()
 
     async def _process_batch(self, token, start_date, end_date, in_file, out_folder):
+        # Suggestion 3: Verify token format in UI
+        masked_token = f"{token[:4]}...{token[-4:]}" if len(token) >= 8 else "****"
+        self._log(f"Authenticated with Token: {masked_token}")
+        
         self._log(f"Reading and deduplicating {os.path.basename(in_file)}...")
         records = parse_markdown_file(in_file)
         
@@ -184,7 +188,10 @@ class App(ctk.CTk):
                         self._log(f" -> Success: {res.commit_count} commits")
                         save_to_cache(record.username, start_date, end_date, res.commit_count)
                     else:
-                        self._log(f" -> Failed: {res.status.name}")
+                        self._log(f" -> Failed: {res.status.name} | {res.error_detail}")
+                    
+                    # Suggestion 2: Micro-delay strictly for live network calls
+                    await asyncio.sleep(1)
 
                 completed += 1
                 self.after(0, self.progress_bar.set, completed / total_users)

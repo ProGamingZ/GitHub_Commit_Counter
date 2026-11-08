@@ -31,7 +31,7 @@
 ## 4. Business Rules, Invariants, and Edge-Case Handling
 *   **Rule 1 (Deduplication):** A single input file may contain the same user multiple times. The system MUST deduplicate the parsing queue using a mathematical `set` to prevent duplicate network calls and duplicate lines in the final output.
 *   **Rule 2 (Private Commits):** The system strictly counts public commits. Private repository commits are ignored to maintain a standardized grading baseline.
-*   **Rule 3 (Rate Limiting):** Outbound requests must be throttled via an `asyncio.Semaphore(5)` to prevent triggering GitHub's secondary abuse limits.
+*   **Rule 3 (Rate Limiting):** Outbound requests must be throttled via an asyncio.Semaphore(5) combined with a 1-second micro-delay between live network calls. If GitHub's secondary abuse limit is triggered, the system initiates a maximum 3-attempt exponential backoff based on the Retry-After header.
 *   **Rule 4 (Zero-Commit Accounts):** Accounts returning a `total_count` of 0 are valid academic submissions and MUST be logged in the success file as `[name]-=-0-=-[link]`.
 *   **Edge Case (Invalid Identifiers):** Emails, real names, or malformed URLs will bypass API querying entirely, fail fast, and route directly to `errors.log`.
 *   **Edge Case (404 Not Found):** If a user deleted their account or changed their username, the API returns 404. This is logged in `errors.log` and outputs as `PROBLEM WITH ACCOUNT` in the main `.txt`.

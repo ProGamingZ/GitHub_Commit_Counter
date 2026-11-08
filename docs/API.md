@@ -31,6 +31,6 @@ Since this is a client app, mutations refer to local disk operations resulting f
 
 ## 4. Known Issues and Maintenance Rules
 *   **GitHub Rate Limits (403):** Even with a PAT (5,000 req/hr), the Search API is subject to secondary abuse limits if concurrent requests are made too rapidly.
-    *   *Maintenance Rule:* The application must respect the `Retry-After` header if a 403 is received. The `asyncio.Semaphore` must remain strictly at or below `5` concurrent workers.
+    *   *Maintenance Rule:* The application must respect the Retry-After header if a 403 is received. The API client enforces a max-3 retry loop that executes await asyncio.sleep() for the required duration (or a 60-second default fallback) before re-queueing the user.
 *   **Pagination Limitations:** The Search API `total_count` is accurate up to 1,000 results. If a student somehow surpasses 1,000 commits in a single assignment period, the API may cap the reported number. This is a known GitHub limitation but functionally irrelevant for standard academic grading scales.
 
